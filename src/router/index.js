@@ -55,7 +55,28 @@ export const constantRouterMap = [
       }
     ]
   },
+  {
+    path: '/category',
+    component: Layout,
+    redirect: '/category/first',
+    name: 'category',
+    meta: {title: '分类', icon: 'product-cate'},
+    children: [
+      {
+        path: 'first',
+        name: 'first',
+        component: () => import('@/views/category/index'),
+        meta: { title: '一级分类', icon: 'product-brand' }
+      },
+      {
+        path: 'second',
+        name: 'second',
+        component: () => import('@/views/category/index'),
+        meta: { title: '二级分类', icon: 'product-brand' }
+      }
 
+    ]
+  },
   {
     path: '/form',
     component: Layout,
