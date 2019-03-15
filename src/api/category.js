@@ -87,3 +87,18 @@ export function deleteTMCate(id,flbh1){
     method: 'delete',
   })
 }
+
+export function addTMCLASS(data) {
+  return request({
+    url: '/category/tmclass',
+    method: 'post',
+    data: data
+  })
+}
+
+export function deleteTMCLASS(id,flbh1) {
+  return request({
+    url: '/category/tmclass/' + id + "/flbh1/" + flbh1,
+    method: 'delete',
+  })
+}
