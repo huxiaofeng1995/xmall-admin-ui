@@ -58,3 +58,18 @@ export function deleteSecondCate(id){
     method: 'delete',
   })
 }
+
+export function fetchTMList(flbh1) {
+  return request({
+    url: '/category/tm/' + flbh1,
+    method: 'get',
+  })
+}
+
+export function addTMCate(data) {
+  return request({
+    url: '/category/tm',
+    method: 'post',
+    data: data
+  })
+}

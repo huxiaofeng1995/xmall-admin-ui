@@ -73,8 +73,13 @@ export const constantRouterMap = [
         name: 'second',
         component: () => import('@/views/category/second/index'),
         meta: { title: '二级分类', icon: 'product-brand' }
+      },
+      {
+        path: 'tm',
+        name: 'trademark',
+        component: () => import('@/views/category/tm/index'),
+        meta: { title: '品牌管理', icon: 'product-brand' }
       }
-
     ]
   },
   {
