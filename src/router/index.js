@@ -71,7 +71,7 @@ export const constantRouterMap = [
       {
         path: 'second',
         name: 'second',
-        component: () => import('@/views/category/index'),
+        component: () => import('@/views/category/second/index'),
         meta: { title: '二级分类', icon: 'product-brand' }
       }
 
