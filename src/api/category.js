@@ -66,10 +66,24 @@ export function fetchTMList(flbh1) {
   })
 }
 
+export function fetchTMCate() {
+  return request({
+    url: '/category/tm',
+    method: 'get',
+  })
+}
+
 export function addTMCate(data) {
   return request({
     url: '/category/tm',
     method: 'post',
     data: data
+  })
+}
+
+export function deleteTMCate(id,flbh1){
+  return request({
+    url: '/category/tm/' + id,
+    method: 'delete',
   })
 }

@@ -1,38 +1,5 @@
 <template>
   <div class="app-container">
-    <el-card class="filter-container" shadow="never">
-      <div>
-        <i class="el-icon-search"></i>
-        <span>筛选搜索</span>
-        <el-button
-          style="float: right"
-          @click="handleSearchList()"
-          type="primary"
-          size="small">
-          查询结果
-        </el-button>
-        <el-button
-          style="float: right;margin-right: 15px"
-          @click="handleResetSearch()"
-          size="small">
-          重置
-        </el-button>
-      </div>
-      <div style="margin-top: 15px">
-        <el-form :inline="true" size="small" label-width="140px">
-          <el-form-item label="商品一级分类：" prop="flbh1">
-            <el-select v-model="flbh1" clearable placeholder="请选择">
-              <el-option
-                v-for="item in first_cate_list"
-                :key="item.id"
-                :label="item.flmch1"
-                :value="item.id">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </div>
-    </el-card>
     <el-card class="operate-container" shadow="never">
       <i class="el-icon-tickets"></i>
       <span>数据列表</span>
@@ -77,16 +44,6 @@
       :visible.sync="dialogVisible"
       width="30%">
       <el-form ref="cateForm" :model="cate" :rules="rules" label-width="120px">
-        <el-form-item label="一级分类：" prop="flbh1">
-          <el-select v-model="flbh1" clearable placeholder="请选择">
-            <el-option
-              v-for="item in first_cate_list"
-              :key="item.id"
-              :label="item.flmch1"
-              :value="item.id">
-            </el-option>
-          </el-select>
-        </el-form-item>
         <el-form-item label="品牌名称" prop="flmch2">
           <el-input v-model="cate.ppmch" auto-complete="off"></el-input>
         </el-form-item>
@@ -107,16 +64,14 @@
 </template>
 
 <script>
-  import {fetchFirstCateList,fetchTMList,addTMCate,updateSecondCate,deleteSecondCate} from '@/api/category'
+  import {fetchFirstCateList,fetchTMCate,addTMCate,deleteTMCate} from '@/api/category'
   export default {
     name: "secondCategoryList",
     data(){
       return  {
         files: [],
-        flbh1: null,
         fileItems:[{index: 0,src: './static/upload_hover.png'}],
         cate: {ppmch : '', id: null, url: ''},
-        first_cate_list: [],
         tm_list: [],
         listLoading: true,
         dialogTitle: '',
@@ -129,29 +84,14 @@
       }
     },
     mounted(){
-      this.getFirstCateList()
+      this.getTMList();
     },
     methods: {
-      getFirstCateList() {
-        fetchFirstCateList().then(response => {
+      getTMList(){
+        fetchTMCate().then(response => {
           this.listLoading = false;
-          this.first_cate_list = response.data;
+          this.tm_list = response.data;
         })
-      },
-      handleSearchList(){
-        if (this.flbh1 != null) {
-          fetchTMList(this.flbh1).then(response => {
-            this.listLoading = false;
-            this.tm_list = response.data;
-          })
-        }else {
-          this.$message({
-            message: '请选择一级分类',
-            type: 'warning',
-            duration:1000
-          });
-          return false;
-        }
       },
       clearBean(){
         this.dialogVisible = false;
@@ -171,7 +111,6 @@
             let data = new FormData();
             data.append("ppmch",this.cate.ppmch);
             data.append("file",this.files[0]);
-            data.append("flbh1",this.flbh1);
             if(this.cate.id == null){
               addTMCate(data).then(response=>{
                 this.$message({
@@ -180,18 +119,10 @@
                   duration:1000
                 });
                 this.clearBean();
-                this.handleSearchList();
+                this.getTMList();
               });
             }else{
-              updateSecondCate(this.cate).then(response=>{
-                this.$message({
-                  message: '修改成功',
-                  type: 'success',
-                  duration:1000
-                });
-                this.clearBean();
-                this.handleSearchList();
-              });
+              //更新功能暂不提供
             }
           } else {
             console.log('error submit!!');
@@ -200,26 +131,31 @@
         });
       },
       handleEdit(index, row){
-        this.dialogVisible = true;
-        this.dialogTitle = '编辑品牌';
-        this.flag = true;
-        this.cate.flmch2 = row.flmch2;
-        this.cate.id = row.id;
-        this.cate.flbh1 = row.flbh1;
+        this.$message({
+          message: '请删除该品牌并重新添加',
+          type: 'success',
+          duration:1000
+        });
+        // this.dialogVisible = true;
+        // this.dialogTitle = '编辑品牌';
+        // this.flag = true;
+        // this.cate.ppmch = row.ppmch;
+        // this.cate.id = row.id;
+        // this.cate.url = row.url;
       },
       handleDelete(index, row){
-        this.$confirm('是否要删除该子分类', '提示', {
+        this.$confirm('是否要删除该品牌', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteSecondCate(row.id).then(response=>{
+          deleteTMCate(row.id).then(response=>{
             this.$message({
               message: '删除成功',
               type: 'success',
               duration:1000
             });
-            this.handleSearchList();
+            this.getTMList();
           });
         });
       },
