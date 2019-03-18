@@ -7,3 +7,11 @@ export function fetchSpuList(params) {
     params: params
   })
 }
+
+export function addSpu(data) {
+  return request({
+    url:'/spu',
+    method:'post',
+    data: data
+  })
+}

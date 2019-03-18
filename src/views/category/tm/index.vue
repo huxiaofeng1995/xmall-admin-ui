@@ -99,7 +99,7 @@
         this.cate.id = null;
         this.cate.url = '';
         this.files = [];
-        this.fileItems = [{index: 0,src: './static/upload_hover.png'}];
+        this.fileItems = [{index: 0,src: './static/img/upload_hover.png'}];
       },
       handleAdd(){
         this.dialogVisible = true;
@@ -189,7 +189,7 @@
         var length = this.$refs.imgFile.length;//获取当前文件input/img 标签的数量
         if((index+1) == length && index < 4){//说明用户点击的是最后一张,并限制图片个数,这里限制了5张图片
           index++;
-          var obj= {index: index,src:'image/upload_hover.png'};
+          var obj= {index: index,src:'./static/img/upload_hover.png'};
           this.fileItems.push(obj)
         }
       }
