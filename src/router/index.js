@@ -23,14 +23,14 @@ export const constantRouterMap = [
   { path: '/404', component: () => import('@/views/404'), hidden: true },
 
   {
-    path: '/',
+    path: '',
     component: Layout,
     redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
+    name: 'dashboard',
     children: [{
       path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
+      component: () => import('@/views/dashboard/index'),
+      meta: {title: '首页', icon: 'home'}
     }]
   },
 
@@ -79,6 +79,33 @@ export const constantRouterMap = [
         name: 'trademark',
         component: () => import('@/views/category/tm/index'),
         meta: { title: '品牌管理', icon: 'product-brand' }
+      }
+    ]
+  },
+  {
+    path: '/spu',
+    component: Layout,
+    redirect: '/spu/product',
+    name: 'spu',
+    meta: {title: '商品', icon: 'product'},
+    children: [
+      {
+        path: 'product',
+        name: 'product',
+        component: () => import('@/views/spu/index'),
+        meta: { title: '商品列表', icon: 'product-list' }
+      },
+      {
+        path: 'addspu',
+        name: 'addspu',
+        component: () => import('@/views/spu/add'),
+        meta: { title: '添加商品', icon: 'product-add' }
+      },
+      {
+        path: 'updatespu',
+        name: 'updatespu',
+        component: () => import('@/views/spu/update'),
+        meta: { title: '修改商品', icon: 'product-add' }
       }
     ]
   },
