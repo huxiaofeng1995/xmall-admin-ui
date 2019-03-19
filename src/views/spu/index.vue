@@ -117,7 +117,7 @@
 
 <script>
   import {fetchFirstCateList,fetchSecondCateList,fetchTMList,fetchTMCate} from '@/api/category'
-  import {fetchSpuList} from '@/api/spu'
+  import {fetchSpuList,deleteSpu} from '@/api/spu'
   const defaultListQuery = {
     pageNum: 1,
     pageSize: 5,
@@ -202,18 +202,18 @@
         this.$router.push({path:'/spu/updatespu',query:{id:row.id}});
       },
       handleDelete(index, row){
-        this.$confirm('是否要删除该分类', '提示', {
+        this.$confirm('是否要删除该商品', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteFirstCate(row.id).then(response=>{
+          deleteSpu(row.id).then(response=>{
             this.$message({
               message: '删除成功',
               type: 'success',
               duration:1000
             });
-            this.getFirstCateList();
+            this.getSpuList();
           });
         });
       },

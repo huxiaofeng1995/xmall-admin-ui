@@ -66,7 +66,7 @@
     name: "addspu",
     data(){
       return  {
-        spu:{},
+        spu:{id:null,shp_mch:'',shp_msh:'',flbh1:null,flbh2:null,pp_id:null},
         files: [],
         fileItems:[{index: 0,src: './static/img/upload_hover.png'}],
         tm_class_list: [],
@@ -120,8 +120,10 @@
       clearBean(){
         this.spu.shp_mch = '';
         this.spu.id = null;
-        this.dialogTMAddVisible = false;
-        this.pp_id = null;
+        this.spu.pp_id = null;
+        this.spu.shp_msh = '';
+        this.spu.flbh1 = null;
+        this.spu.flbh2 = null;
       },
       handleConfirm(formName){//验证表单输入
         this.$refs[formName].validate((valid) => {

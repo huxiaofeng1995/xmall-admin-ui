@@ -15,3 +15,9 @@ export function addSpu(data) {
     data: data
   })
 }
+export function deleteSpu(id) {
+  return request({
+    url:'/spu/' + id,
+    method:'delete',
+  })
+}
