@@ -18,6 +18,21 @@ export function addSpu(data) {
 export function deleteSpu(id) {
   return request({
     url:'/spu/' + id,
-    method:'delete',
+    method:'delete'
+  })
+}
+
+export function getSpu(id){
+  return request({
+    url:'/spu/' + id,
+    method:'get'
+  })
+}
+
+export function updateSpu(data){
+  return request({
+    url:'/spu',
+    method:'put',
+    data:data
   })
 }

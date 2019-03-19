@@ -1,5 +1,9 @@
 <template>
   <el-card class="form-container" shadow="never">
+    <div>
+      <i class="el-icon-edit-outline"></i>
+      <span>添加商品</span>
+    </div>
     <div style="margin-top: 50px">
       <el-form :model="spu" :rules="rules" ref="spuForm" label-width="120px" style="width: 600px" size="small">
         <el-form-item label="一级分类：" prop="flbh1">
