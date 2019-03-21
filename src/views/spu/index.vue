@@ -80,7 +80,12 @@
           </template>
         </el-table-column>
         <el-table-column label="商品图片" width="300" align="center">
-          <template slot-scope="scope"><img style="height: 80px" :src="scope.row.shp_tp"></template>
+          <template slot-scope="scope">
+            <p><img style="height: 80px" :src="scope.row.shp_tp"></p>
+            <el-button
+              size="mini"
+              @click="handleImgs(scope.$index, scope.row)">图片管理</el-button>
+          </template>
         </el-table-column>
         <el-table-column label="商品描述" width="300" align="center">
           <template slot-scope="scope">
@@ -200,6 +205,9 @@
       },
       handleEdit(index, row){
         this.$router.push({path:'/spu/updatespu',query:{id:row.id}});
+      },
+      handleImgs(index, row){
+        this.$router.push({path:'/spu/updatespuImg',query:{id:row.id}});
       },
       handleDelete(index, row){
         this.$confirm('是否要删除该商品', '提示', {

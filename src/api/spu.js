@@ -36,3 +36,35 @@ export function updateSpu(data){
     data:data
   })
 }
+
+export function getSpuImgs(id){
+  return request({
+    url:'/spu-imgs/' + id,
+    method:'get'
+  })
+}
+
+export function addSpuImg(data){
+  return request({
+    url:'/spu-img',
+    method:'post',
+    data:data
+  })
+}
+
+export function updateSpuImg(data) {
+  return request({
+    url: '/spu-img',
+    method: 'put',
+    data: data
+  })
+}
+
+export function setMainImg(data) {
+  return request({
+    url: '/spu-img/main',
+    method: 'put',
+    data: data
+  })
+}
+

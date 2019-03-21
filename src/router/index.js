@@ -104,8 +104,16 @@ export const constantRouterMap = [
       {
         path: 'updatespu',
         name: 'updatespu',
+        hidden: true,
         component: () => import('@/views/spu/update'),
         meta: { title: '修改商品', icon: 'product-add' }
+      },
+      {
+        path: 'updatespuImg',
+        name: 'updatespuImg',
+        hidden: true,
+        component: () => import('@/views/spu/img/index'),
+        meta: { title: '图片管理', icon: 'product-img' }
       }
     ]
   },
