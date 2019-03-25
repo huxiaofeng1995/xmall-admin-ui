@@ -65,7 +65,7 @@
             <p>{{scope.row.shxm_mch}}</p>
           </template>
         </el-table-column>
-        <el-table-column label="商品图片" width="100" align="center">
+        <el-table-column label="是否启用" width="100" align="center">
           <template slot-scope="scope">
             <p>{{scope.row.shfqy=='1'?'启用':'停用'}}</p>
           </template>
@@ -79,7 +79,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">编辑属性值</el-button>
+              @click="handleEdit(scope.$index, scope.row)">属性值管理</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -100,12 +100,76 @@
         :total="total">
       </el-pagination>
     </div>
+    <el-dialog
+      :title="dialogTitle"
+      :visible.sync="dialogTableVisible"
+      width="30%">
+      <el-card class="operate-container" shadow="never">
+        <i class="el-icon-tickets"></i>
+        <span>属性值列表</span>
+        <el-button
+          class="btn-add"
+          @click="handleValueAdd()"
+          size="mini">
+          添加
+        </el-button>
+      </el-card>
+      <div class="table-container">
+        <el-table ref="productTable"
+                  :data="value_list"
+                  border>
+          <el-table-column label="编号" width="70" align="center">
+            <template slot-scope="scope">{{scope.row.id}}</template>
+          </el-table-column>
+          <el-table-column label="属性值" align="center">
+            <template slot-scope="scope">
+              <p>{{scope.row.shxzh}}</p>
+            </template>
+          </el-table-column>
+          <el-table-column label="属性值名称" align="center">
+            <template slot-scope="scope">
+              <p>{{scope.row.shxzh_mch}}</p>
+            </template>
+          </el-table-column>
+          <el-table-column label="是否启用" width="100" align="center">
+            <template slot-scope="scope">
+              <p>{{scope.row.shfqy=='1'?'启用':'停用'}}</p>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="100" align="center">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleValueDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+    </el-dialog>
+    <el-dialog
+      title="添加属性值"
+      :visible.sync="dialogValueAddVisible"
+      width="30%" @close="clearBean">
+      <el-form :model="value_bean" :rules="rules" ref="valueForm"  label-width="120px">
+        <el-form-item label="属性值" prop="shxzh">
+          <el-input v-model="value_bean.shxzh"></el-input>
+        </el-form-item>
+        <el-form-item label="属性值名称" prop="shxzh_mch">
+          <el-input v-model="value_bean.shxzh_mch"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="clearBean">取 消</el-button>
+        <el-button type="primary" @click="execValueAdd('valueForm')">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
   import {fetchFirstCateList,fetchSecondCateList} from '@/api/category'
-  import {fetchAttrList} from '@/api/attr'
+  import {fetchAttrList,addAttrValue,deleteAttr,deleteAttrValue} from '@/api/attr'
   const defaultListQuery = {
     pageNum: 1,
     pageSize: 5,
@@ -114,23 +178,31 @@
   }
 
   export default {
-    name: "product",
+    name: "attrList",
     data(){
       return  {
         listQuery: Object.assign({}, defaultListQuery),
         attr_list: [],
+        value_list: [],
         total: null,
         second_cate_list: [],
         first_cate_list: [],
         dialogTitle: '',
-        dialogVisible: false,
-        flbh1: null,
+        dialogTableVisible: false,
+        dialogValueAddVisible: false,
+        value_bean: {id: null, shxzh: '',shxzh_mch: '',shxm_id: null},
         rules: {
           flbh1: [
             { required: true, message: '请选择一级分类名称', trigger: 'change' }
           ],
           flbh2: [
             { required: true, message: '请选择二级分类名称', trigger: 'change' }
+          ],
+          shxzh: [
+            { required: true, message: '请输入属性值', trigger: 'blur' }
+          ],
+          shxzh_mch: [
+            { required: true, message: '请输入属性值名', trigger: 'blur' }
           ]
         }
       }
@@ -176,19 +248,77 @@
           this.first_cate_list = response.data;
         })
       },
+      clearBean(){
+        this.dialogTableVisible = false;
+        this.dialogValueAddVisible = false;
+        this.value_bean.shxzh_mch = '';
+        this.value_bean.shxzh = '';
+        this.value_bean.shxm_id = null;
+      },
+      handleEdit(index, row){
+        this.dialogTitle = '属性值管理';
+        this.dialogTableVisible = true;
+        this.value_list = row.list_value;
+        this.value_bean.shxm_id = row.id;
+      },
       handleDelete(index, row){
-        this.$confirm('是否要删除该商品', '提示', {
+        this.$confirm('是否要删除该属性', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          deleteSpu(row.id).then(response=>{
+          deleteAttr(row.id).then(response=>{
             this.$message({
               message: '删除成功',
               type: 'success',
               duration:1000
             });
-            this.getSpuList();
+            this.getAttrList();
+          });
+        });
+      },
+      execValueAdd(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            let data = new FormData();
+            data.append('shxzh',this.value_bean.shxzh);
+            data.append('shxzh_mch',this.value_bean.shxzh_mch);
+            data.append('shxm_id',this.value_bean.shxm_id);
+            addAttrValue(data).then(response=>{
+              this.$message({
+                message: '添加成功',
+                type: 'success',
+                duration:1000
+              });
+              this.clearBean();
+              this.getAttrList();
+            });
+          }else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      handleAdd(){
+        this.$router.push({path:'/spu/addAttr'})
+      },
+      handleValueAdd(){
+        this.dialogValueAddVisible = true;
+      },
+      handleValueDelete(index,row){
+        this.$confirm('是否要删除该属性值', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          deleteAttrValue(row.id).then(response=>{
+            this.$message({
+              message: '删除成功',
+              type: 'success',
+              duration:1000
+            });
+            this.clearBean();
+            this.getAttrList();
           });
         });
       }

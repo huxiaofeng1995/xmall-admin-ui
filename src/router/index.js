@@ -120,6 +120,12 @@ export const constantRouterMap = [
         name: 'productAttrList',
         component: () => import('@/views/attr/index'),
         meta: {title: '属性管理', icon: 'product-attr'},
+      },
+      {
+        path: 'addAttr',
+        name: 'addAttr',
+        component: () => import('@/views/attr/add'),
+        meta: { title: '添加属性', icon: 'product-add' }
       }
     ]
   },
