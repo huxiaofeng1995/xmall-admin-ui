@@ -127,7 +127,7 @@
         })
       },
       handleSearchList(){
-        if (this.flbh1 != null) {
+        if (this.flbh1 != null && this.flbh1 != "") {
           fetchSecondCateList(this.flbh1).then(response => {
             this.listLoading = false;
             this.second_cate_list = response.data;

@@ -114,6 +114,12 @@ export const constantRouterMap = [
         hidden: true,
         component: () => import('@/views/spu/img/index'),
         meta: { title: '图片管理', icon: 'product-img' }
+      },
+      {
+        path: 'attrList',
+        name: 'productAttrList',
+        component: () => import('@/views/attr/index'),
+        meta: {title: '属性管理', icon: 'product-attr'},
       }
     ]
   },

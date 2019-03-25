@@ -70,7 +70,7 @@
     data(){
       return  {
         files: [],
-        fileItems:[{index: 0,src: './static/upload_hover.png'}],
+        fileItems:[{index: 0,src: './static/img/upload_hover.png'}],
         cate: {ppmch : '', id: null, url: ''},
         tm_list: [],
         listLoading: true,
