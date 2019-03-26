@@ -46,7 +46,20 @@
             type="textarea"
             placeholder="请输入内容"></el-input>
         </el-form-item>
-        <el-form-item label="品牌图片：" >
+        <el-form-item label="商品颜色：">
+          <template>
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="addColor"></el-button>
+            <el-input v-for="(item, index) in list_color" :key="item.index" v-model="item.shp_ys"></el-input>
+
+          </template>
+        </el-form-item>
+        <el-form-item label="商品版本：">
+          <template>
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="addVersion"></el-button>
+            <el-input v-for="(item, index) in list_version" :key="item.index" v-model="item.shp_bb"></el-input>
+          </template>
+        </el-form-item>
+        <el-form-item label="商品图片：" >
           <template slot-scope="scope">
             <div id = "dimg" v-for="item in fileItems" style="float:left">
               <input ref="imgFile" type="file" name="files" style="display: none" @change="upFile($event,item.index)"/>
@@ -71,6 +84,8 @@
     data(){
       return  {
         spu:{id:null,shp_mch:'',shp_msh:'',flbh1:null,flbh2:null,pp_id:null},
+        list_color: [],
+        list_version: [],
         files: [],
         fileItems:[{index: 0,src: './static/img/upload_hover.png'}],
         tm_class_list: [],
@@ -143,7 +158,8 @@
             for(var i = 0; i < this.files.length;i++){//上传多个文件
               data.append("files", this.files[i]);
             }
-            data.append("spu",this.spu);
+            data.append("colors",JSON.stringify(this.list_color));
+            data.append("versions",JSON.stringify(this.list_version));
             data.append("files",this.files);
             addSpu(data).then(response=>{
               this.$message({
@@ -191,6 +207,12 @@
           var obj= {index: index,src:'./static/img/upload_hover.png'};
           this.fileItems.push(obj)
         }
+      },
+      addColor(){
+        this.list_color.push({shp_ys:''})
+      },
+      addVersion(){
+        this.list_version.push({shp_bb:''})
       }
     }
   }

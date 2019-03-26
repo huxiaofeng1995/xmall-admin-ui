@@ -132,6 +132,7 @@ export const constantRouterMap = [
   {
     path: '/form',
     component: Layout,
+    meta: { title: 'Form', icon: 'form' },
     children: [
       {
         path: 'index',

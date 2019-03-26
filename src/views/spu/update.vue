@@ -87,7 +87,11 @@
       let id = this.$route.query.id
       getSpu(id).then(response=>{
         this.spu = response.data;
-      })
+        let flbh1 = this.spu.flbh1;
+        this.getFirstCateList();
+        this.getSecondCateList(flbh1);
+        this.getTMClassList(flbh1);
+      });
     },
     methods: {
       handleCateChange(){

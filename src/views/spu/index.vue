@@ -92,6 +92,12 @@
             <p>{{scope.row.shp_msh}}</p>
           </template>
         </el-table-column>
+        <el-table-column label="SKU管理"  align="center">
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+          </template>
+        </el-table-column>
+
         <el-table-column label="操作" width="200" align="center">
           <template slot-scope="scope">
             <el-button
