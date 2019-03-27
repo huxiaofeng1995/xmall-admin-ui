@@ -49,14 +49,19 @@
         <el-form-item label="商品颜色：">
           <template>
             <el-button type="primary" icon="el-icon-plus" size="mini" @click="addColor"></el-button>
-            <el-input v-for="(item, index) in list_color" :key="item.index" v-model="item.shp_ys"></el-input>
-
+            <div v-for="(item, index) in list_color" :key="item.index">
+              <input type="text"  v-model="item.shp_ys" style="border-radius: 4px;height: 30px;line-height: 30px;"></input>
+              <el-button type="danger" icon="el-icon-minus" size="mini" @click="delColor(item)"></el-button>
+            </div>
           </template>
         </el-form-item>
         <el-form-item label="商品版本：">
           <template>
             <el-button type="primary" icon="el-icon-plus" size="mini" @click="addVersion"></el-button>
-            <el-input v-for="(item, index) in list_version" :key="item.index" v-model="item.shp_bb"></el-input>
+            <div v-for="(item, index) in list_version" :key="index">
+              <input type="text"  v-model="item.shp_bb" style="border-radius: 4px;height: 30px;line-height: 30px;"></input>
+              <el-button type="danger" icon="el-icon-minus" size="mini" @click="delVersion(item)"></el-button>
+            </div>
           </template>
         </el-form-item>
         <el-form-item label="商品图片：" >
@@ -213,6 +218,18 @@
       },
       addVersion(){
         this.list_version.push({shp_bb:''})
+      },
+      delColor(item){
+        let index = this.list_color.indexOf(item);
+        if(index !== -1){
+          this.list_color.splice(index, 1);
+        }
+      },
+      delVersion(item){
+        let index = this.list_version.indexOf(item);
+        if(index !== -1){
+          this.list_version.splice(index, 1);
+        }
       }
     }
   }
