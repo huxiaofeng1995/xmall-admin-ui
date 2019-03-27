@@ -126,6 +126,13 @@ export const constantRouterMap = [
         name: 'addAttr',
         component: () => import('@/views/attr/add'),
         meta: { title: '添加属性', icon: 'product-add' }
+      },
+      {
+        path: 'addsku',
+        name: 'addsku',
+        hidden: true,
+        component: () => import('@/views/spu/sku/add'),
+        meta: { title: '添加sku', icon: 'sku' }
       }
     ]
   },

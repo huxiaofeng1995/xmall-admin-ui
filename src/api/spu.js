@@ -8,6 +8,20 @@ export function fetchSpuList(params) {
   })
 }
 
+export function fetchSpuColors(id) {
+  return request({
+    url:'/spu-colors/' + id,
+    method:'get',
+  })
+}
+
+export function fetchSpuVersions(id) {
+  return request({
+    url:'/spu-versions/' + id,
+    method:'get',
+  })
+}
+
 export function addSpu(data) {
   return request({
     url:'/spu',

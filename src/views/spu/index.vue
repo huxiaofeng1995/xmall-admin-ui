@@ -94,7 +94,7 @@
         </el-table-column>
         <el-table-column label="SKU管理"  align="center">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" circle></el-button>
+            <el-button type="primary" icon="el-icon-edit" circle @click="testSku(scope.row)"></el-button>
           </template>
         </el-table-column>
 
@@ -235,6 +235,10 @@
         fetchTMList(flbh1).then(response => {
           this.tm_class_list = response.data;
         })
+      },
+      testSku(row){
+        let id = row.id
+        this.$router.push({path:'/spu/addsku',query:{pid: id}})
       }
     }
   }

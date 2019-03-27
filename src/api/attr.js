@@ -37,3 +37,31 @@ export function addAttr(data) {
     data: data
   })
 }
+
+export function addColor(data) {
+  return request({
+    url:'/color',
+    method:'post',
+    data: data
+  })
+}
+
+export function delColor(id) {
+  return request({
+    url:'/color/' + id,
+    method:'delete',
+  })
+}
+export function addVersion(data) {
+  return request({
+    url:'/version',
+    method:'post',
+    data: data
+  })
+}
+export function delVersion(id) {
+  return request({
+    url:'/version/' + id,
+    method:'delete',
+  })
+}
