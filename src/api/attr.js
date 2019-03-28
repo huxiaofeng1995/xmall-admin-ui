@@ -8,6 +8,13 @@ export function fetchAttrList(params) {
   })
 }
 
+export function fetchAllAttrList(flbh2) {
+  return request({
+    url:'/attr-list/' + flbh2,
+    method:'get',
+  })
+}
+
 export function addAttrValue(data) {
   return request({
     url:'/attr-value',
